@@ -1,0 +1,35 @@
+#!/bin/bash
+#######################################
+## docker-librenms                   ##
+## A full librenms  setup for docker ##
+#######################################
+## php5-fpm startup script           ##
+#######################################
+
+## Augeas configure librenms
+if [ ! -f /opt/librenms/config.php ]; then
+	## Create config file
+	cp /opt/librenms/config.php.default /opt/librenms/config.php
+fi
+	
+## Set DB vars
+augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db_host\']"]' "\'"mysql"\'"
+augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db_user\']"]' "\'"root"\'"
+augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db_pass\']"]' "\'"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"\'"
+augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db\'][\'extension\']"]' "\'"mysql"\'"
+
+## Wait for MySQL
+until nc -z mysql 3306
+do
+	sleep 1
+done
+
+## Setup database
+cd /opt/librenms
+php build-base.php
+
+## Create User
+php adduser.php "$LIBRENMS_USERNAME" "$LIBRENMS_PASSWORD" 10 "$LIBRENMS_EMAIL"
+
+## Bring up PHP
+/usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf

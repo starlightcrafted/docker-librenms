@@ -1,0 +1,10 @@
+#!/bin/bash
+#######################################
+## docker-librenms                   ##
+## A full librenms  setup for docker ##
+#######################################
+## NGINX startup script              ##
+#######################################
+
+## Bring up NGINX
+/usr/sbin/nginx -g 'daemon off;'

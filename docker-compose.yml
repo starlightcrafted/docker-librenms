@@ -1,0 +1,18 @@
+sys:
+  build: librenms
+  restart: always
+  tty: true
+  links:
+    - mysql
+  environment:
+    LIBRENMS_USERNAME: librenms
+    LIBRENMS_PASSWORD: librenms
+    LIBRENMS_EMAIL: librenms@localhost
+mysql:
+  image: percona:5.6
+  volumes:
+    - ./mysql/db:/var/lib/mysql
+    - ./mysql/conf:/etc/mysql/conf.d
+  environment:
+    MYSQL_ROOT_PASSWORD: setmetosomething
+    MYSQL_DATABASE: librenms
