@@ -1,7 +1,3 @@
 #!/bin/bash
 
-## Configure rrdcached
-sed -i "s/^#OPTS=/OPTS=/" /etc/default/rrdcached
-augtool --autosave --noautoload --transform "Shellvars.lns incl /etc/default/rrdcached" set '/files/etc/default/rrdcached/OPTS' $'\'"-w 1800 -z 1800 -f 3600 -s librenms -j /var/tmp -l unix:/var/run/rrdcached.sock -t 4 -F -b /opt/librenms/rrd4/"\''
-
-rrdcached -g
+rrdcached -g -w 1800 -z 1800 -f 3600 -s librenms -j /var/tmp -l unix:/var/run/rrdcached.sock -t 4 -F -b /opt/librenms/rrd4/
