@@ -46,5 +46,8 @@ if [ ! -f /docker/user/$LIBRENMS_USERNAME ] && [ ! -z ${LIBRENMS_USERNAME+x} ]; 
 	touch /docker/user/$LIBRENMS_USERNAME
 fi
 
+## Fix Permisisons
+chown -R librenms:librenms /opt/librenms/logs
+
 ## Bring up PHP
 /usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf

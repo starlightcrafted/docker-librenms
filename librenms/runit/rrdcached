@@ -1,7 +1,9 @@
 #!/bin/bash
 
+## Fix permisisons
 mkdir -p /var/run/rrdcached
 chown librenms:librenms /var/run/rrdcached
+chown -R librenms:librenms /opt/librenms/rrd
 
 rrdcached -g -s librenms -l unix:/var/run/rrdcached/rrdcached.sock -j /var/lib/rrdcached/journal/ -F -b /opt/librenms/rrd/ -B -w 1800 -z 1800 -f 3600 -t 4
 
