@@ -24,7 +24,7 @@ augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/conf
 
 ## Setup rrdcached
 sed -i "s/^#\$config\['rrdcached'\]/\$config\['rrdcached'\]/" /opt/librenms/config.php
-augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'rrdcached\']"]' "\'"/var/run/rrdcached.sock"\'"
+augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'rrdcached\']"]' "\'"/var/run/rrdcached/rrdcached.sock"\'"
 
 ## Setup cron
 cp /opt/librenms/librenms.nonroot.cron /etc/cron.d/librenms
