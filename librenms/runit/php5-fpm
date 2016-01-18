@@ -28,7 +28,7 @@ augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/conf
 
 ## Setup cron
 cp /opt/librenms/librenms.nonroot.cron /etc/cron.d/librenms
-sed -i "s/poller-wrapper.py 16/popper-wrapper.py $LIBRENMS_THREADS/" /etc/cron.d/librenms
+sed -i "s/poller-wrapper.py 16/poller-wrapper.py $LIBRENMS_THREADS/" /etc/cron.d/librenms
 
 ## Wait for MySQL
 until nc -z mysql 3306
