@@ -1,1 +1,2 @@
+[mysqld]
 performance_schema = 0

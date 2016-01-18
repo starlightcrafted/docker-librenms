@@ -6,17 +6,29 @@
 ## php5-fpm startup script           ##
 #######################################
 
-## Augeas configure librenms
+## Copy over new config
 if [ ! -f /opt/librenms/config.php ]; then
 	## Create config file
 	cp /opt/librenms/config.php.default /opt/librenms/config.php
 fi
-	
+
+## Set timezone
+echo "$LIBRENMS_TZ" > /etc/timezone
+sudo dpkg-reconfigure --frontend noninteractive tzdata
+
 ## Set DB vars
 augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db_host\']"]' "\'"mysql"\'"
 augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db_user\']"]' "\'"root"\'"
 augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db_pass\']"]' "\'"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"\'"
 augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'db\'][\'extension\']"]' "\'"mysql"\'"
+
+## Setup rrdcached
+sed -i "s/^#\$config\['rrdcached'\]/\$config\['rrdcached'\]/" /opt/librenms/config.php
+augtool --autosave --noautoload --transform "Phpvars.lns incl /opt/librenms/config.php" set $'/files/opt/librenms/config.php/$config[@arraykey = "[\'rrdcached\']"]' "\'"/var/run/rrdcached.sock"\'"
+
+## Setup cron
+cp /opt/librenms/librenms.nonroot.cron /etc/cron.d/librenms
+sed -i "s/poller-wrapper.py 16/popper-wrapper.py $LIBRENMS_THREADS/" /etc/cron.d/librenms
 
 ## Wait for MySQL
 until nc -z mysql 3306
@@ -29,7 +41,10 @@ cd /opt/librenms
 php build-base.php
 
 ## Create User
-php adduser.php "$LIBRENMS_USERNAME" "$LIBRENMS_PASSWORD" 10 "$LIBRENMS_EMAIL"
+if [ ! -f /docker/user/$LIBRENMS_USERNAME] && [ ! -z ${LIBRENMS_USERNAME+x} ]; then
+	php adduser.php "$LIBRENMS_USERNAME" "$LIBRENMS_PASSWORD" 10 "$LIBRENMS_EMAIL"
+	touch /docker/user/$LIBRENMS_USERNAME
+fi
 
 ## Bring up PHP
 /usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf

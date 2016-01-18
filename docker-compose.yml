@@ -4,10 +4,15 @@ sys:
   tty: true
   links:
     - mysql
+  volumes:
+    - ./librenms/rrd:/opt/librenms/rrd
+    - ./librenms/logs/opt/librenms/logs
   environment:
     LIBRENMS_USERNAME: librenms
     LIBRENMS_PASSWORD: librenms
     LIBRENMS_EMAIL: librenms@localhost
+    LIBRENMS_THREADS: 4
+    LIBRENMS_TZ: America/Los_Angeles
 mysql:
   image: percona:5.6
   volumes:

@@ -1,2 +1,6 @@
 mysql/db/*
 !mysql/db/.keep
+librenms/rrd/*
+!librenms/rrd/.keep
+librenms/logs/*
+!librenms/logs/.keep
