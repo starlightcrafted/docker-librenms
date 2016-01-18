@@ -46,3 +46,6 @@ ADD runit/rrdcached /etc/service/rrdcached/run
 ## Setup NGINX
 RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/default /etc/nginx/sites-enabled/default
+
+## Indicate it is listening on port 80
+EXPOSE 80

@@ -19,3 +19,4 @@ The following can (and probably should) be adjusted under "environment"
 * The container does not do "replacements" of **any** files for compatibility with future releases. Instead, all files are modified in-place using augeas and sed (for uncommenting).
 * rrdcached is included for reducing the load on the container
 * performance_schema is disabled by default on the mysql container to reduce memory usage. It can be re-enabled by removing mysql/conf/performance_schema.cnf
+* No HTTPS support, use [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) to proxy connections to the container
