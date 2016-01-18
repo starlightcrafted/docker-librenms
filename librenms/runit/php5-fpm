@@ -41,7 +41,7 @@ cd /opt/librenms
 php build-base.php
 
 ## Create User
-if [ ! -f /docker/user/$LIBRENMS_USERNAME] && [ ! -z ${LIBRENMS_USERNAME+x} ]; then
+if [ ! -f /docker/user/$LIBRENMS_USERNAME ] && [ ! -z ${LIBRENMS_USERNAME+x} ]; then
 	php adduser.php "$LIBRENMS_USERNAME" "$LIBRENMS_PASSWORD" 10 "$LIBRENMS_EMAIL"
 	touch /docker/user/$LIBRENMS_USERNAME
 fi
