@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################
 ## docker-librenms                   ##
-## A full librenms  setup for docker ##
+## A full librenms setup for docker  ##
 #######################################
 ## php5-fpm startup script           ##
 #######################################
@@ -37,12 +37,16 @@ do
 done
 
 ## Setup database
-cd /opt/librenms
-php build-base.php
-
+if [ ! -f /docker/mysql/installed ]; then
+	cd /opt/librenms
+	php build-base.php
+	mkdir -p /docker/mysql
+	touch /docker/mysql/installed
+fi
 ## Create User
 if [ ! -f /docker/user/$LIBRENMS_USERNAME ] && [ ! -z ${LIBRENMS_USERNAME+x} ]; then
 	php adduser.php "$LIBRENMS_USERNAME" "$LIBRENMS_PASSWORD" 10 "$LIBRENMS_EMAIL"
+	mkdir -p /docker/user/
 	touch /docker/user/$LIBRENMS_USERNAME
 fi
 

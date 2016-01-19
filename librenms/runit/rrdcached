@@ -1,4 +1,10 @@
 #!/bin/bash
+#######################################
+## docker-librenms                   ##
+## A full librenms setup for docker  ##
+#######################################
+## rrdcached startup script          ##
+#######################################
 
 ## Fix permisisons
 mkdir -p /var/run/rrdcached
