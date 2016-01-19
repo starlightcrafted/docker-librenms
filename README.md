@@ -12,7 +12,9 @@ The following can (and probably should) be adjusted under "environment"
 * LIBRENMS_PASSWORD: The password you will use to login to librenms
 * LIBRENMS_EMAIL: The email you will use with your librenms username
 * LIBRENMS_THREADS: The number of poller threads to have
-* LIBRENMS_TZ: The timezone for librenms
+* LIBRENMS_TZ: The timezone for librenms, in the standard Linux timezone format.
+
+After you are finished editing, run `docker-compose up -d` to launch.
 
 ## Notes:
 * The db volume mounts, along with the rrd/logs mounts can be moved elsewhere, the folders are just there for convenience.
@@ -20,3 +22,4 @@ The following can (and probably should) be adjusted under "environment"
 * rrdcached is included for reducing the load on the container
 * performance_schema is disabled by default on the mysql container to reduce memory usage. It can be re-enabled by removing mysql/conf/performance_schema.cnf
 * No HTTPS support, use [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) to proxy connections to the container
+* Percona MySQL is used, but you can substitute it with standard mysql if you want
