@@ -6,7 +6,7 @@ sys:
     - mysql
   volumes:
     - ./librenms/rrd:/opt/librenms/rrd
-    - ./librenms/logs/opt/librenms/logs
+    - ./librenms/logs:/opt/librenms/logs
   environment:
     LIBRENMS_USERNAME: librenms
     LIBRENMS_PASSWORD: librenms
