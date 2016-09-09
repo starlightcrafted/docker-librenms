@@ -4,6 +4,8 @@ sys:
   tty: true
   links:
     - mysql
+  ports:
+    - "8080:80"
   volumes:
     - ./librenms/rrd:/opt/librenms/rrd
     - ./librenms/logs:/opt/librenms/logs
