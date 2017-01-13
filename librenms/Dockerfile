@@ -16,10 +16,10 @@ RUN export LANG=en_US.UTF-8
 RUN mkdir /docker
 
 ## Add PHP 5.6 repo
-RUN LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php5-5.6
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
 
 ## Packages
-RUN apt-get update && apt-get -y install nginx php5-fpm php5-mysql php5-cli php-apc php5-gd php5-snmp php-pear php5-curl snmp graphviz php5-mcrypt php5-json fping imagemagick whois mtr-tiny nmap python-mysqldb php-net-ipv4 php-net-ipv6 rrdtool git augeas-lenses augeas-tools netcat rrdcached
+RUN apt-get update && apt-get -y install nginx php5.6-fpm php5.6-mysql php5.6-cli php-apc php5.6-gd php5.6-snmp php-pear php5.6-curl snmp graphviz php5.6-mcrypt php5.6-json fping imagemagick whois mtr-tiny nmap python-mysqldb php-net-ipv4 php-net-ipv6 rrdtool git augeas-lenses augeas-tools netcat rrdcached
 
 ## Configure php5-fpm
 RUN php5enmod opcache
